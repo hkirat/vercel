@@ -1,10 +1,13 @@
 import express from "express";
 import { S3 } from "aws-sdk";
+require("dotenv").config()
+
+const {AWS_ACCESS_KEY,AWS_SECRET_ACCESS_KEY,CLOUDFLARE_STORAGE_ENDPOINT,PORT} = process.env
 
 const s3 = new S3({
-    accessKeyId: "7ea9c3f8c7f0f26f0d21c5ce99d1ad6a",
-    secretAccessKey: "b4df203781dd711223ce931a2d7ca269cdbf81bb530de4548474584951b798be",
-    endpoint: "https://e21220f4758c0870ba9c388712d42ef2.r2.cloudflarestorage.com"
+    accessKeyId: AWS_ACCESS_KEY,
+    secretAccessKey: AWS_SECRET_ACCESS_KEY,
+    endpoint: CLOUDFLARE_STORAGE_ENDPOINT
 })
 
 const app = express();
@@ -27,4 +30,6 @@ app.get("/*", async (req, res) => {
     res.send(contents.Body);
 })
 
-app.listen(3001);
+app.listen(PORT, () => {
+    console.log(`Server listening on PORT : ${PORT}`);
+  });
