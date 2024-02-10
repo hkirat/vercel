@@ -7,6 +7,8 @@ import { getAllFiles } from "./file";
 import path from "path";
 import { uploadFile } from "./aws";
 import { createClient } from "redis";
+require("dotenv").config()
+const {PORT} = process.env;
 const publisher = createClient();
 publisher.connect();
 
@@ -48,4 +50,4 @@ app.get("/status", async (req, res) => {
     })
 })
 
-app.listen(3000);
+app.listen(PORT);
