@@ -25,4 +25,4 @@ For frontend
 
 For frontend, do `npm install` and `npm run dev` to start vite server.
 
-<!-- TODO: add for backend -->
+For `vercel-upload-service` set the AWS secret values in `.env` file before running the project and building it. Just do `npm install` and `npx ts-node-dev src/index.ts` or you can also build it using `tsc` or `esbuild` etc.
