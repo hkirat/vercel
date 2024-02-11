@@ -13,7 +13,6 @@ This is not a monorepo and each folder is a seperate service. Folder names shoul
 
 - AWS : Used extensively, to deploy, run, store code.
 - Redis: Used for storing project status etc
-- Zod: Used for checking user input
 
 For frontend
 
@@ -25,4 +24,14 @@ For frontend
 
 For frontend, do `npm install` and `npm run dev` to start vite server.
 
-For `vercel-upload-service` set the AWS secret values in `.env` file before running the project and building it. Just do `npm install` and `npx ts-node-dev src/index.ts` or you can also build it using `tsc` or `esbuild` etc.
+For backend:
+
+- Set the AWS secret values in `.env` file.
+
+```
+AWS_ACCESS_KEY_ID="your AWS access key"
+AWS_SECRET_ACCESS_KEY="your aws secret key"
+CLOUDFLARE_STORAGE_ENDPOINT="your cloudfront endpoint to connect to s3"
+```
+
+- Just do `npm install` and `npx ts-node-dev src/index.ts` or you can also build it using `tsc` or `esbuild` etc.
