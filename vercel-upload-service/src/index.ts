@@ -6,6 +6,7 @@ import { getAllFiles } from "./file";
 import path from "path";
 import { uploadFile } from "./aws";
 import { createClient } from "redis";
+import fs from "fs/promises";
 import "dotenv/config";
 
 const publisher = createClient();
@@ -48,6 +49,9 @@ app.post("/deploy", async (req, res) => {
   await chunkedPromiseAll(files, (file) => {
     return uploadFile(file.slice(__dirname.length + 1), file);
   });
+
+  // Delete the folder after uploading
+  await fs.rm(repoPath, { recursive: true, force: true });
 
   publisher.lPush("build-queue", id);
   // INSERT => SQL
