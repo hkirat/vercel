@@ -21,7 +21,42 @@ app.get("/*", async (req, res) => {
         Key: `dist/${id}${filePath}`
     }).promise();
     
-    const type = filePath.endsWith("html") ? "text/html" : filePath.endsWith("css") ? "text/css" : "application/javascript"
+    const ext = filePath.split(".").pop();
+    let type: string;
+    switch (ext) {
+      case "html":
+        type = "text/html";
+        break;
+      case "css":
+        type = "text/css";
+        break;
+      case "js":
+        type = "text/javascript";
+        break;
+      case "json":
+        type = "application/json";
+        break;
+      case "png":
+        type = "image/png";
+        break;
+      case "jpg":
+        type = "image/jpg";
+        break;
+      case "jpeg":
+        type = "image/jpeg";
+        break;
+      case "svg":
+        type = "image/svg+xml";
+        break;
+      case "gif":
+        type = "image/gif";
+        break;
+      case "ico":
+        type = "image/x-icon";
+        break;
+      default:
+        type = "text/plain";
+    }
     res.set("Content-Type", type);
 
     res.send(contents.Body);
