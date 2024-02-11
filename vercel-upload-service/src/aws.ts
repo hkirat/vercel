@@ -2,19 +2,26 @@ import { S3 } from "aws-sdk";
 import fs from "fs";
 
 const s3 = new S3({
-    accessKeyId: "7ea9c3f8c7f0f26f0d21c5ce99d1ad6a",
-    secretAccessKey: "b4df203781dd711223ce931a2d7ca269cdbf81bb530de4548474584951b798be",
-    endpoint: "https://e21220f4758c0870ba9c388712d42ef2.r2.cloudflarestorage.com"
-})
+  // Consider adding a check if these values are set or not.
+  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  endpoint: process.env.CLOUDFLARE_STORAGE_ENDPOINT,
+});
+
+const BUCKET_NAME = "vercel";
 
 // fileName => output/12312/src/App.jsx
 // filePath => /Users/harkiratsingh/vercel/dist/output/12312/src/App.jsx
 export const uploadFile = async (fileName: string, localFilePath: string) => {
-    const fileContent = fs.readFileSync(localFilePath);
-    const response = await s3.upload({
-        Body: fileContent,
-        Bucket: "vercel",
-        Key: fileName,
-    }).promise();
-    console.log(response);
-}
+  // Create a read stream so we don't load the complete file in memory
+  const fileStream = fs.createReadStream(localFilePath);
+  const response = await s3
+    .upload({
+      Body: fileStream,
+      Bucket: BUCKET_NAME,
+      Key: fileName,
+    })
+    .promise();
+
+  console.log(response);
+};
